@@ -182,7 +182,7 @@ def find_information_missing_in_chunks(query, retrieved_chunks, bedrock_client):
     """
 
     payload = {
-        "modelId": os.getenv("inference_profile"),
+        "modelId": st.secrets["inference_profile"], 
         "body": json.dumps({
             "anthropic_version": "bedrock-2023-05-31",
             "max_tokens": 200,
@@ -264,7 +264,7 @@ def generate_final_response(query, retrieved_chunks, historic_context, bedrock_c
     """
 
     payload = {
-        "modelId": os.getenv("inference_profile"),
+        "modelId": st.secrets["inference_profile"],
         "body": json.dumps({
             "anthropic_version": "bedrock-2023-05-31",
             "max_tokens": 500,
@@ -316,9 +316,8 @@ def initialize_bedrock_client():
     
     load_dotenv("Credentials")  
 
-    # Access the credentials from environment variables
-    aws_access_key_id = os.getenv("aws_access_key_id")
-    aws_secret_access_key = os.getenv("aws_secret_access_key")
+    aws_access_key_id =  st.secrets["aws_access_key_id"]
+    aws_secret_access_key = st.secrets["aws_secret_access_key"]
 
     return boto3.client(
     service_name = "bedrock-runtime",
